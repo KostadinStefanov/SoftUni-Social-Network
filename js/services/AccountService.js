@@ -4,7 +4,7 @@ app.factory("AccountService", ["$http", "baseUrl", function ($http, baseUrl) {
         register: function (data, success, error) {
             var request = {
                 method: "POST",
-                url: baseUrl + "user/register",
+                url: baseUrl + "/users/register",
                 data: data
             };
 
@@ -18,7 +18,7 @@ app.factory("AccountService", ["$http", "baseUrl", function ($http, baseUrl) {
         login: function (data, success, error) {
             var request = {
                 method: "POST",
-                url: baseUrl + "user/login",
+                url: baseUrl + "/users/login",
                 data: data
             };
 
