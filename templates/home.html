@@ -1,5 +1,5 @@
 <div ng-controller="HomeController">
-    <div ng-hide="Auth.isLoggedIn()">
+    <div ng-hide="AccountService.isLoggedIn()">
         <!-- guest home -->
         <div>
             <h1 class="center">Welcome to <strong>SoftUni Social Network</strong></h1>
@@ -20,13 +20,13 @@
         </div>
     </div>
     <!-- end of guest home -->
-    <div ng-show="Auth.isLoggedIn()">
+    <div ng-show="AccountService.isLoggedIn()">
         <!-- user header -->
         <div class="image-container">
             <img class="thumbnail" />
         </div>
         <div class="summary-container">
-            <h2>Hello, {{Auth.getCurrentUser().name}}!</h2>
+            <h2> Hello, {{ AccountService.getCurrentUser().userName }}! </h2>
         </div>
         <nav class="navbar navbar-default">
             <div class="navbar-header">
@@ -44,7 +44,7 @@
                     <li><a href="#">Post</a></li>
                 </ul>
                 <ul class="nav navbar-nav pull-right">
-                    <li><a class="navbar-brand"><u>{{Auth.getCurrentUser().username}}</u></a></li>
+                    <li><a class="navbar-brand"><u>{{ AccountService.getCurrentUser().userName }}</u></a></li>
                     <li><a ng-click="logout()">Logout</a></li>
                 </ul>
             </div>
