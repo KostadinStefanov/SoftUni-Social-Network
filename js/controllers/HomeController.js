@@ -3,7 +3,7 @@
 app.controller('HomeController',
     function HomeController($scope, accountService, userService, notification, $routeParams) {
         var feedStartPostId;
-        $scope.username = accountService.getCurrentUser().userName;
+
         $scope.accountService = accountService;
         $scope.posts = [];
 

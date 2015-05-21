@@ -1,5 +1,5 @@
 app.controller("RegisterController", ["$scope", "$location", "accountService", "notification",
-    function ($scope, $location,  AccountService, notification) {
+    function ($scope, $location,  accountService, notification) {
         $scope.userData = {
         };
 

@@ -39,8 +39,11 @@ app.factory("accountService", ["$http", "baseUrl", function ($http, baseUrl) {
             }
         },
 
+        isAnonymous: function () {
+            return this.getCurrentUser() == undefined;
+        },
         isLoggedIn: function () {
-            return this.getCurrentUser() !== undefined;
+            return !this.isAnonymous()
         },
 
         getAuthHeaders: function () {
