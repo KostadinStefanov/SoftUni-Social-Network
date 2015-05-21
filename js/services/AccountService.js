@@ -1,6 +1,5 @@
-app.factory("AccountService", ["$http", "baseUrl", function ($http, baseUrl) {
+app.factory("accountService", ["$http", "baseUrl", function ($http, baseUrl) {
     var KEY_USER_DATA = "currentUserInfo";
-    var USERNAME = "username"
     return {
         register: function (data, success, error) {
             var request = {
@@ -38,25 +37,12 @@ app.factory("AccountService", ["$http", "baseUrl", function ($http, baseUrl) {
             if (userInfo) {
                 return angular.fromJson(userInfo);
             }
-            //var userInfo = localStorage[USERNAME];
-           // if (userInfo) {
-           //     return userInfo;
+        },
 
-        },
-        isAnonymous: function () {
-            return this.getCurrentUser() == undefined;
-        },
         isLoggedIn: function () {
-            return !this.isAnonymous();
+            return this.getCurrentUser() !== undefined;
         },
-        isRegularUser: function () {
-            var user = this.getCurrentUser();
-            return (user != undefined) && (!user.isAdmin);
-        },
-        isAdmin: function () {
-            var user = this.getCurrentUser();
-            return (user != undefined) && (user.isAdmin);
-        },
+
         getAuthHeaders: function () {
             var headers = {};
             var user = this.getCurrentUser();

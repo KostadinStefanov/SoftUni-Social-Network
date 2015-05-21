@@ -1,5 +1,5 @@
 <div ng-controller="HomeController">
-    <div ng-hide="AccountService.isLoggedIn()">
+    <div ng-hide="accountService.isLoggedIn()">
         <!-- guest home -->
         <div>
             <h1 class="center">Welcome to <strong>SoftUni Social Network</strong></h1>
@@ -20,13 +20,13 @@
         </div>
     </div>
     <!-- end of guest home -->
-    <div ng-show="AccountService.isLoggedIn()">
+    <div ng-show="accountService.isLoggedIn()">
         <!-- user header -->
         <div class="image-container">
             <img class="thumbnail" />
         </div>
         <div class="summary-container">
-            <h2> Hello, {{ AccountService.getCurrentUser().userName }}! </h2>
+            <h2> Hello, {{ accountService.getCurrentUser().userName }}! </h2>
         </div>
         <nav class="navbar navbar-default">
             <div class="navbar-header">
@@ -44,11 +44,26 @@
                     <li><a href="#">Post</a></li>
                 </ul>
                 <ul class="nav navbar-nav pull-right">
-                    <li><a class="navbar-brand"><u>{{ AccountService.getCurrentUser().userName }}</u></a></li>
+                    <li><a class="navbar-brand"><u>{{ accountService.getCurrentUser().userName }}</u></a></li>
                     <li><a ng-click="logout()">Logout</a></li>
+                    <form class="navbar-form navbar-right" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Find Friends">
+                        </div>
+                        <button type="submit" class="btn btn-default">Search</button>
+                    </form>
                 </ul>
             </div>
-        </nav>
-        <!-- end of user header -->
+        </nav><!-- end of user header -->
+
+        <legend>
+            <h2>News feed</h2>
+        </legend>
+        <div class="form-group col-md-9">
+            <div ng-include="'templates/posts.html'"  infinite-scroll='loadNewsFeed()' infinite-scroll-disabled='wallBusy' infinite-scroll-distance="0" class="row">
+            </div>
+        </div>
+        <div class="media col-md-3" ng-include="'templates/friends-preview.html'">
+        </div>
     </div>
 </div>

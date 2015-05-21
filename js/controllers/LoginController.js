@@ -1,7 +1,7 @@
-app.controller("LoginController", ["$scope", "AccountService", "$location","notification",
-    function ($scope, AccountService, $location, notification) {
+app.controller("LoginController", ["$scope", "accountService", "$location","notification",
+    function ($scope, accountService, $location, notification) {
         $scope.login = function (userData) {
-            AccountService.login(userData, function (data) {
+            accountService.login(userData, function (data) {
                 notification.showInfo("Login successful.");
                 $location.path("/");
             }, function (error) {

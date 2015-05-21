@@ -1,4 +1,4 @@
-app.controller("RegisterController", ["$scope", "$location", "AccountService", "notification",
+app.controller("RegisterController", ["$scope", "$location", "accountService", "notification",
     function ($scope, $location,  AccountService, notification) {
         $scope.userData = {
         };
@@ -10,7 +10,7 @@ app.controller("RegisterController", ["$scope", "$location", "AccountService", "
                 return;
             }
 
-            AccountService.register(userData, function (data) {
+            accountService.register(userData, function (data) {
                 notification.showInfo("Registration successful.");
                 $location.path("#/");
             }, function (error) {

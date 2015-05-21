@@ -1,0 +1,21 @@
+'use strict';
+
+app.factory('feedService',["$http", "$q", "baseUrl", "accountService", function ($http, $q, baseUrl, accountService) {
+    var service = {};
+    var config = { headers: accountService.getAuthHeaders() };
+
+    var serviceUrl = baseUrl + 'me/feed/';
+    service.getMyFeed = function () {
+        var deferred = $q.defer();
+        $http.get(serviceUrl + '?StartPostId&PageSize=15', config)
+            .success(function (data) {
+                deferred.resolve(data);
+            })
+            .error(function (errorData) {
+                deferred.reject(errorData);
+            });
+
+        return deferred.promise;
+    }
+    return service;
+}]);
