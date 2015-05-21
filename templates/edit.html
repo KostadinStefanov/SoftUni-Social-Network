@@ -1,0 +1,69 @@
+<main class="container">
+    <header class="jumbotron">
+        <h1>Edit profile</h1>
+    </header>
+
+    <div class="row ">
+        <form name="edit-profile-form" class="form-horizontal" data-ng-submit="editProfile()">
+            <section class="col-md-4">
+                <div class="well">
+                    <img class="img-responsive center-block" src="{{createImage(profile.profilePhotoData) || 'http://wuhwebsites.winthrop.org/kelt_wordpress/wp-content/uploads/2015/03/default-medium.png'}}" />
+                    <p class="text-info">Allowed formats: .jpg</p>
+                    <p class="text-info">Maximum size: 128kb</p>
+                    <input type="file" class="form-control" id="profilePictureInput" />
+                </div>
+            </section>
+            <section class="col-md-8">
+                <div class="well">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputName" class="col-md-4 control-label">Name</label>
+                            <div class="col-md-6">
+                                <input type="text" required class="form-control" id="inputName" placeholder="Name" data-ng-model="profile.name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-md-4 control-label">Email</label>
+                            <div class="col-md-6">
+                                <input type="text" required class="form-control" id="inputEmail" placeholder="Email" data-ng-model="profile.email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Gender</label>
+                            <div class="col-md-4">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" data-ng-model="profile.gender">
+                                        Male
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="1" data-ng-model="profile.gender">
+                                        Female
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="2" data-ng-model="profile.gender">
+                                        Other
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <img class="img-responsive" src="{{user.coverPhoto}}" />
+                        <input type="file" class="form-control" id="coverPhotoInput" />
+                    </div>
+                </div>
+            </section>
+            <section class="col-md-12">
+                <div class="well text-center">
+                    <input type="submit" class="btn btn-info" value="Update" />
+                </div>
+            </section>
+        </form>
+    </div>
+</main>

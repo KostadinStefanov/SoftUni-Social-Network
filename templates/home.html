@@ -40,18 +40,30 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">Edit profile</a></li>
+                    <li><a href="#/edit">Edit profile</a></li>
                     <li><a href="#">Post</a></li>
                 </ul>
                 <ul class="nav navbar-nav pull-right">
                     <li><a class="navbar-brand"><u>{{ accountService.getCurrentUser().userName }}</u></a></li>
                     <li><a ng-click="logout()">Logout</a></li>
-                    <form class="navbar-form navbar-right" role="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Find Friends">
+
+
+                    <form class="navbar-form navbar-right" id="search-form" role="search">
+                        <div class="input-group">
+                            <input type="text" id="search-input" ng-model="searchTerm" ng-change="searchUser();" ng-blur="clearSearchResults()" class="form-control" placeholder="Search friends by name...">
+                        </div><!-- /input-group -->
+
+                        <div id="search-results" ng-if="searchResults" class="list-group">
+                            <div ng-repeat="user in searchResults" class="list-group-item">
+                                <a href="#/{{user.username}}/wall/">
+                                    <img ng-src="{{user.profileImageData}}" err-src="{{defaultImage}}" alt="profile picture" style="width: 50px; height: 50px"/>
+                                    <span class="name">{{user.name}}</span>
+                                </a>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-default">Search</button>
                     </form>
+
+
                 </ul>
             </div>
         </nav><!-- end of user header -->

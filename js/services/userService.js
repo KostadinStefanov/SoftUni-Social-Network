@@ -3,7 +3,7 @@ app.factory('userService', ["$http","$q", "$resource", "baseUrl", "accountServic
         $http.defaults.headers.common['Authorization'] = accountService.getAuthHeaders();
         var PAGE_SIZE = 5;
         var resource = $resource(
-                baseUrl + 'users/:option1/:option2',
+                baseUrl + '/users/:option1/:option2',
                 { option1: '@option1', option2: '@option2' },
                 {
                     edit: {

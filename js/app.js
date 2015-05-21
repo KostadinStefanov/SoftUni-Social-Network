@@ -22,6 +22,13 @@ app
                 pageTitle: "Registration"
             })
 
+            .when("/edit", {
+                templateUrl: "templates/edit.html",
+                controller: "EditProfileController",
+                pageName: "edit",
+                pageTitle: "Edit"
+            })
+
             .otherwise({
                 redirectTo: "/"
             });

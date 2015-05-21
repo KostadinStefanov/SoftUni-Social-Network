@@ -50,7 +50,7 @@ app.factory("accountService", ["$http", "baseUrl", function ($http, baseUrl) {
             var headers = {};
             var user = this.getCurrentUser();
             if (user) {
-                headers.Authorization = "Bearer " + user.access_token;
+                headers = "Bearer " + user.access_token;
             }
 
             return headers;
