@@ -1,0 +1,11 @@
+<header ng-if="isLogged()" ></header>
+
+<main ng-init="getWallOwner()">
+    <header class="header" id="header"  ng-style="{'background-image':'url(' + (wallOwner.coverImageData ? wallOwner.coverImageData : 'imgs/cover.png') +')'}" >
+        <div class="image-container" >
+            <img class="thumbnail" ng-src="{{wallOwner.profileImageData}}" alt="profile picture"/>
+        </div>
+        <div class="summary-container">
+            <h2> This is  {{ wallOwner.username }}'s wall </h2>
+        </div>
+    </header>

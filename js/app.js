@@ -29,6 +29,13 @@ app
                 pageTitle: "Edit"
             })
 
+            .when('/user/:username/wall/', {
+                templateUrl: 'templates/wall.html',
+                controller: 'HomeController',
+                pageName: "user wall",
+                pageTitle: "UserWall"
+            })
+
             .otherwise({
                 redirectTo: "/"
             });

@@ -54,6 +54,10 @@ app.factory("accountService", ["$http", "baseUrl", function ($http, baseUrl) {
             }
 
             return headers;
+        },
+        getAccessToken : function() {
+            return localStorage.getItem('accessToken');
         }
+
     };
 }]);
