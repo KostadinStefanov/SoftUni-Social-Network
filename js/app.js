@@ -29,6 +29,13 @@ app
                 pageTitle: "Edit"
             })
 
+            .when("/invitations", {
+                templateUrl: "templates/pendingRequests.html",
+                controller: "HomeController",
+                pageName: "invitations",
+                pageTitle: "Invitations"
+            })
+
             .when('/user/:username/wall/', {
                 templateUrl: 'templates/wall.html',
                 controller: 'HomeController',

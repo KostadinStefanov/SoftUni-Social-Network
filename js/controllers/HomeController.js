@@ -1,10 +1,11 @@
 'use strict';
 
 app.controller('HomeController',
-    function HomeController($scope, $log, accountService, userService, notification, $routeParams, $timeout) {
+    function HomeController($scope, $log, accountService, userService, notification, $routeParams, $timeout, profileService) {
         var feedStartPostId;
 
         $scope.accountService = accountService;
+        $scope.profileService = profileService;
         $scope.posts = [];
 
         $scope.logout = function () {
@@ -13,12 +14,6 @@ app.controller('HomeController',
 
 
         $scope.loadUserWall = function () {
-            if (accountService.isLoggedIn()) {
-                if ($scope.busy) {
-                    return;
-                }
-                $scope.busy = true;
-
                 userService.getUserWall($routeParams['username'], feedStartPostId).$promise.then(
                     function (data) {
                         $scope.posts = $scope.posts.concat(data);
@@ -31,7 +26,6 @@ app.controller('HomeController',
                         notification.showError("Error loading user wall!", error);
                     }
                 );
-            }
         };
 
         $scope.searchUser = function () {
@@ -82,10 +76,8 @@ app.controller('HomeController',
 
         $scope.getWallOwner = function () {
             if (accountService.isLoggedIn()) {
-                console.log("1");
                 userService.getUserFullData($routeParams['username']).$promise.then(             // o6te nqma username
                     function (data) {
-                        console.log("2");
                         $scope.wallOwner = data;
                         if (accountService.getCurrentUser().userName !== $scope.wallOwner.username) {
                             if (data.isFriend) {
@@ -112,6 +104,40 @@ app.controller('HomeController',
                 );
             }
         }
+
+        function getFriendRequests(){
+                profileService.getPendingRequests().$promise.then(
+                    function(data){
+                        $scope.pendingRequests = data;
+                    }
+                );
+        }
+
+        $scope.acceptFriendRequest = function(request){
+                profileService.acceptRequest(request.id).$promise.then(
+                    function(){
+                        var index =  $scope.pendingRequests.indexOf(request);
+                        $scope.pendingRequests.splice(index,1);
+                        notification.showInfo("Friend request successfully accepted.");
+                    }, function(error){
+                        notification.showError("Unsuccessful request accept!", error);
+                    }
+                );
+        };
+
+        $scope.rejectFriendRequest = function(request){
+                profileService.rejectRequest(request.id).$promise.then(
+                    function(){
+                        var index =  $scope.pendingRequests.indexOf(request);
+                        $scope.pendingRequests.splice(index,1);
+                        notification.showInfo("Friend request successfully rejected.");
+                    }, function(error){
+                        notification.showError("Unsuccessful request reject!", error);
+                    }
+                );
+        };
+
+        getFriendRequests();
 
     }
 );
