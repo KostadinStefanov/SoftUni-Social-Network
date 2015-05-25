@@ -37,8 +37,8 @@ app
             })
 
             .when('/user/:username/wall/', {
-                templateUrl: 'templates/wall.html',
-                controller: 'HomeController',
+                templateUrl: 'templates/userWall.html',
+                controller: 'userWallController',
                 pageName: "user wall",
                 pageTitle: "UserWall"
             })

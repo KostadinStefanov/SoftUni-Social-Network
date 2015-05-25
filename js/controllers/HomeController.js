@@ -10,7 +10,12 @@ app.controller('HomeController',
 
         $scope.logout = function () {
             accountService.logout();
+            userService.logout();
         }
+
+        $scope.isLogged = function(){
+            return accountService.isLoggedIn();
+        };
 
         profileService.me().$promise.then(
             function (data) {
@@ -23,7 +28,6 @@ app.controller('HomeController',
 
         profileService.getNewsFeed(PAGE_SIZE, feedStartPostId).$promise.then(
             function (data) {
-                console.log(data);
                 $scope.posts = $scope.posts.concat(data);
                 if ($scope.posts.length > 0) {
                     feedStartPostId = $scope.posts[$scope.posts.length - 1].id;
@@ -38,7 +42,6 @@ app.controller('HomeController',
             if (accountService.isLoggedIn() && $scope.searchTerm.trim() !== "") {
                 userService.searchUser($scope.searchTerm).$promise.then(
                     function (data) {
-                        //console.log(data);
                         $scope.searchResults = data;
                     },
                     function (error, status) {
@@ -50,35 +53,7 @@ app.controller('HomeController',
             }
         };
 
-        $scope.getWallOwner = function () {
-            if (accountService.isLoggedIn()) {
-                userService.getUserFullData($routeParams['username']).$promise.then(
-                    function (data) {
-                        $scope.wallOwner = data;
-                        if (accountService.getCurrentUser().userName !== $scope.wallOwner.username) {
-                            if (data.isFriend) {
-                                $scope.wallOwner.status = 'friend';
-                            } else if (data.hasPendingRequest) {
-                                $scope.wallOwner.status = 'pending';
-                            } else {
-                                $scope.wallOwner.status = 'invite';
-                            }
-                        }
 
-                      //  if ($scope.wallOwner.isFriend && $location.path() === '/user/' + $routeParams['username'] + '/wall/') {
-                      //      $scope.getUserFriendsListPreview();
-                      //  }
-
-                    //  if (!$scope.wallOwner.isFriend && $routeParams['username'] !== $scope.username && $location.path() === '/user/' + $routeParams['username'] + '/friends/') {
-                    //        $location.path('/');
-                   //     }
-                    },
-                    function (error) {
-                        notification.showError("Unsuccessful user load!", error);
-                    }
-                );
-            }
-        }
 
         $scope.getOwnFiendsList = function(){
                 profileService.getFriendsList().$promise.then(
@@ -147,26 +122,6 @@ app.controller('HomeController',
                 );
         };
 
-                userService.getUserFriendsPreview($routeParams['username']).$promise.then(
-                    function (data) {
-                        data.userFriendsUrl = '#/user/' + $routeParams['username'] + '/friends/';
-                        $scope.userFriendsListPreview = data;
-                        console.log(data);
-                    },
-                    function (error) {
-                        notification.showInfo("Loading user friends...", error);
-                    }
-                );
 
-        $scope.getUserFriends = function(){
-                userService.getUserFriends($routeParams['username']).$promise.then(
-                    function (data) {
-                        $scope.friendsList = data;
-                    },
-                    function (error) {
-                        notification.showError("Failed to load user friends!", error);
-                    }
-                );
-            }
     }
 );

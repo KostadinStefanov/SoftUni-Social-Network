@@ -19,7 +19,6 @@ app.factory('profileService', ["$http", "$q", "$resource", "baseUrl", "accountSe
 
         getNewsFeed : function(pageSize, startPostId){
             var option1 = 'feed?StartPostId' + (startPostId ? "=" + startPostId : "") + "&PageSize=" + pageSize;
-
             return resource.query({ option1: option1});
         },
 

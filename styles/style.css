@@ -162,6 +162,12 @@ footer {
 .well{
     padding: 5px;
 }
+.absolulute{
+    position: absolute;
+}
+.search-input{
+    margin: 10px;
+}
 
 @media only screen and (max-width: 490px) {
     .image-container {

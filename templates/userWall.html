@@ -1,0 +1,45 @@
+<header ng-if="isLogged()" ></header>
+<main ng-init="getWallOwner()">
+    <header class="header" id="header"  ng-style="{'background-image':'url(' + (wallOwner.coverImageData ? wallOwner.coverImageData : 'imgs/cover.png') +')'}" >
+        <div class="image-container" >
+            <img class="thumbnail" ng-src="{{wallOwner.profileImageData}}" alt="profile picture"/>
+        </div>
+        <div class="summary-container">
+            <h2> This is  {{ wallOwner.name }}'s wall </h2>
+        </div>
+        <div class="status text-right">
+            <button ng-if="wallOwner.status === 'invite'" type="submit" class="btn-lg btn-danger" ng-click="sendFriendRequest(wallOwner.username)">---> Invite</button>
+            <button ng-if="wallOwner.status === 'friend'" class="btn btn-lg btn-success" disabled>Friend</button>
+            <button ng-if="wallOwner.status === 'pending'" class="btn btn-lg btn-warning" disabled>Pending</button>
+        </div>
+    </header>
+    <div class="col-md-8">
+        <div class="well">
+            <div ng-repeat="post in posts">
+                <div class="well .alert-success col-xs-12 col-md-12">
+                    <div class="form-group col-xs-12 col-md-12">
+                        <img ng-src="{{post.author.profileImageData}}"  alt="profile picture" style="width: 50px; height: 50px"/>
+                <span>
+                    {{post.author.name}} ----> {{post.wallOwner.name}}
+                </span>
+                        <span>{{post.date | date : "dd MMM yyyy hh:mm:ss"}}</span>
+                    </div>
+                    <div class=" col-xs-12 col-md-12">
+                        <span>{{post.postContent}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" ng-init="getUserFriendsPreview()">
+        <div class="well friends" ng-if="userFriendsListPreview">
+            <div class="">Friends - <a href="{{userFriendsListPreview.userFriendsUrl}}">{{userFriendsListPreview.totalCount}} total</a></div>
+            <div class="friends-preview" ng-repeat="friend in userFriendsListPreview.friends | limitTo:6">
+                <a class="thumbnail" href="#/user/{{friend.username}}/wall/">
+                    <img ng-src="{{friend.profileImageData}}"  alt="profile picture" title="{{friend.name}}" style="width: 100px; height: 100px"/>
+                    <p>{{friend.name | limitTo:10}}</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</main>

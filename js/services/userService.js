@@ -1,7 +1,6 @@
 app.factory('userService', ["$http","$q", "$resource", "baseUrl", "accountService",
     function($http, $q, $resource, baseUrl, accountService){
         $http.defaults.headers.common['Authorization'] = accountService.getAuthHeaders();
-        var PAGE_SIZE = 5;
         var resource = $resource(
                 baseUrl + '/users/:option1/:option2/:option3',
                 { option1: '@option1', option2: '@option2', option3 : '@option3' },
@@ -13,9 +12,8 @@ app.factory('userService', ["$http","$q", "$resource", "baseUrl", "accountServic
             );
 
         return {
-        getUserWall : function(username, startPostId){
-            var option2 = 'wall?StartPostId' + (startPostId ? "=" + startPostId : "") + "&PageSize=" + PAGE_SIZE;
-            return resource.query({ option1: username, option2: option2});
+          logout : function(){
+            return resource.save({option1: 'logout'});
         },
 
         searchUser : function(searchTerm){
@@ -26,6 +24,12 @@ app.factory('userService', ["$http","$q", "$resource", "baseUrl", "accountServic
         getUserFullData : function(username){
             return resource.get({ option1: username });
         },
+
+        getUserWall : function(username, pageSize, startPostId){
+            var option2 = 'wall?StartPostId' + (startPostId ? "=" + startPostId : "") + "&PageSize=" + pageSize;
+            return resource.query({ option1: username, option2: option2});
+        },
+
 
         getUserFriendsPreview : function(username){
             return resource.get({ option1: username, option2: 'friends', option3: 'preview' });
