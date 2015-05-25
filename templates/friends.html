@@ -1,0 +1,13 @@
+<main ng-init="getOwnFiendsList()">
+    <legend><h2>Friends ({{friendsList.length}} total)</h2></legend>
+        <div class="row" >
+            <div class="col-md-2 " ng-repeat="friend in friendsList">
+                <div class="thumbnail">
+                    <img ng-src="{{friend.profileImageData}}" alt="profile picture" style="width: 100px; height: 100px"/>
+                        <h3 id="thumbnail-label">
+                            <a href="#/user/{{friend.username  | limitTo:10}}/wall/"><span>{{friend.name  | limitTo:10}}</span></a>
+                        </h3>
+                </div>
+            </div>
+        </div>
+</main>

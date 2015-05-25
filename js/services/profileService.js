@@ -17,14 +17,14 @@ app.factory('profileService', ["$http", "$q", "$resource", "baseUrl", "accountSe
             return resource.get();
         },
 
-        ProfileUpdate :function(data, option1){
-            return resource.edit({option1: option1}, data);
-        },
-
         getNewsFeed : function(pageSize, startPostId){
             var option1 = 'feed?StartPostId' + (startPostId ? "=" + startPostId : "") + "&PageSize=" + pageSize;
 
             return resource.query({ option1: option1});
+        },
+
+        ProfileUpdate :function(data, option1){
+            return resource.edit({option1: option1}, data);
         },
 
         getFriendsList : function(){

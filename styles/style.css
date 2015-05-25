@@ -111,11 +111,6 @@ div.radio input {
     vertical-align: bottom;
 }
 
-input[type="file"] {
-    position:absolute;
-    display:none !important;
-}
-
 .center-btn {
     display: block !important;
     text-align: center;
@@ -157,8 +152,20 @@ footer {
     background-color: #F5F5F5;
 }
 
+.fixed{
+    position: fixed;
+}
+
+.friends-preview{
+    display: inline-block;
+}
+.well{
+    padding: 5px;
+}
+
 @media only screen and (max-width: 490px) {
     .image-container {
         margin: 0 auto;
     }
 }
+

@@ -1,7 +1,11 @@
-<div class="panel pull-right panel-info friends-preview col-xs-12">
-    <div class="panel-heading">Friends</div>
-    <div class="panel-body" >
-        <a href="#">
-        </a>
+<div class="well" ng-if="userFriendsListPreview">
+    <div class="">Friends - <a href="{{userFriendsListPreview.userFriendsUrl}}">{{userFriendsListPreview.totalCount}} total</a></div>
+    <div class="friends-preview" ng-repeat="friend in userFriendsListPreview.friends | limitTo:6">
+            <a class="thumbnail" href="#/user/{{friend.username}}/wall/">
+                <img ng-src="{{friend.profileImageData}}"  alt="profile picture" title="{{friend.name}}" style="width: 100px; height: 100px"/>
+                <p>{{friend.name | limitTo:10}}</p>
+            </a>
     </div>
 </div>
+
+

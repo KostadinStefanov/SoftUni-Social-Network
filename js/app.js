@@ -43,6 +43,12 @@ app
                 pageTitle: "UserWall"
             })
 
+            .when('/friends', {
+                templateUrl: 'templates/friends.html',
+                controller: 'HomeController',
+                pageName: "friends",
+                pageTitle: "Friends"
+            })
             .otherwise({
                 redirectTo: "/"
             });

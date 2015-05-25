@@ -7,7 +7,6 @@ app.factory("accountService", ["$http", "baseUrl", function ($http, baseUrl) {
                 url: baseUrl + "/users/register",
                 data: data
             };
-
             $http(request)
                 .success(function (data) {
                     localStorage[KEY_USER_DATA] = angular.toJson(data);
@@ -15,13 +14,13 @@ app.factory("accountService", ["$http", "baseUrl", function ($http, baseUrl) {
                 })
                 .error(error);
         },
+
         login: function (data, success, error) {
             var request = {
                 method: "POST",
                 url: baseUrl + "/users/login",
                 data: data
             };
-
             $http(request)
                 .success(function (data) {
                     localStorage[KEY_USER_DATA] = angular.toJson(data);
@@ -29,9 +28,11 @@ app.factory("accountService", ["$http", "baseUrl", function ($http, baseUrl) {
                 })
                 .error(error);
         },
+
         logout: function () {
             localStorage.removeItem(KEY_USER_DATA);
         },
+
         getCurrentUser: function () {
             var userInfo = localStorage[KEY_USER_DATA];
             if (userInfo) {
@@ -39,11 +40,8 @@ app.factory("accountService", ["$http", "baseUrl", function ($http, baseUrl) {
             }
         },
 
-        isAnonymous: function () {
-            return this.getCurrentUser() == undefined;
-        },
         isLoggedIn: function () {
-            return !this.isAnonymous()
+            return this.getCurrentUser() !== undefined;
         },
 
         getAuthHeaders: function () {
@@ -52,12 +50,7 @@ app.factory("accountService", ["$http", "baseUrl", function ($http, baseUrl) {
             if (user) {
                 headers = "Bearer " + user.access_token;
             }
-
             return headers;
-        },
-        getAccessToken : function() {
-            return localStorage.getItem('accessToken');
         }
-
     };
 }]);

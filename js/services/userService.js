@@ -3,8 +3,8 @@ app.factory('userService', ["$http","$q", "$resource", "baseUrl", "accountServic
         $http.defaults.headers.common['Authorization'] = accountService.getAuthHeaders();
         var PAGE_SIZE = 5;
         var resource = $resource(
-                baseUrl + '/users/:option1/:option2',
-                { option1: '@option1', option2: '@option2' },
+                baseUrl + '/users/:option1/:option2/:option3',
+                { option1: '@option1', option2: '@option2', option3 : '@option3' },
                 {
                     edit: {
                         method: 'PUT'
@@ -25,6 +25,14 @@ app.factory('userService', ["$http","$q", "$resource", "baseUrl", "accountServic
 
         getUserFullData : function(username){
             return resource.get({ option1: username });
+        },
+
+        getUserFriendsPreview : function(username){
+            return resource.get({ option1: username, option2: 'friends', option3: 'preview' });
+        },
+
+        getUserFriends : function(username){
+            return resource.query({ option1: username, option2: 'friends' });
         }
     }
 }]);

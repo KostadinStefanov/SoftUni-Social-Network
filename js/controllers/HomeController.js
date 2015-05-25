@@ -2,31 +2,37 @@
 
 app.controller('HomeController',
     function HomeController($scope, $log, accountService, userService, notification, $routeParams, $timeout, profileService) {
-        var feedStartPostId;
+        var feedStartPostId = 0,
+        PAGE_SIZE =5;
 
         $scope.accountService = accountService;
-        $scope.profileService = profileService;
         $scope.posts = [];
 
         $scope.logout = function () {
             accountService.logout();
         }
 
+        profileService.me().$promise.then(
+            function (data) {
+                $scope.me = data;
+            },
+            function (error) {
+                notification.showError("Failed to load user details!", error)
+            }
+        );
 
-        $scope.loadUserWall = function () {
-                userService.getUserWall($routeParams['username'], feedStartPostId).$promise.then(
-                    function (data) {
-                        $scope.posts = $scope.posts.concat(data);
-                        if ($scope.posts.length > 0) {
-                            feedStartPostId = $scope.posts[$scope.posts.length - 1].id;
-                        }
-                        $scope.busy = false;
-                    },
-                    function (error) {
-                        notification.showError("Error loading user wall!", error);
-                    }
-                );
-        };
+        profileService.getNewsFeed(PAGE_SIZE, feedStartPostId).$promise.then(
+            function (data) {
+                console.log(data);
+                $scope.posts = $scope.posts.concat(data);
+                if ($scope.posts.length > 0) {
+                    feedStartPostId = $scope.posts[$scope.posts.length - 1].id;
+                }
+            },
+            function (error) {
+                notification.showError("Error loading news feed!", error);
+            }
+        );
 
         $scope.searchUser = function () {
             if (accountService.isLoggedIn() && $scope.searchTerm.trim() !== "") {
@@ -44,39 +50,9 @@ app.controller('HomeController',
             }
         };
 
-        $scope.clearSearchResults = function () {
-            $timeout(function () {
-                $scope.searchResults = undefined;
-                $scope.searchTerm = "";
-            }, 300);
-        };
-
-        $scope.uploadProfileImage = function (event) {
-            var file = event.target.files[0],
-                reader;
-
-            if (!file.type.match(/image\/.*/)) {
-                $('.picture-preview').attr('src', '');
-                $scope.me.profileImageData = undefined;
-                notification.showError("Invalid file format.");
-            } else if (file.size > 131072) {
-                $('.picture-preview').attr('src', '');
-                $scope.me.profileImageData = undefined;
-                notification.showError("File size limit exceeded.");
-            } else {
-                reader = new FileReader();
-                reader.onload = function () {
-                    $('.picture-preview').attr('src', reader.result);
-                    $('#profile-image').attr('data-picture-data', reader.result);
-                    $scope.me.profileImageData = reader.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-
         $scope.getWallOwner = function () {
             if (accountService.isLoggedIn()) {
-                userService.getUserFullData($routeParams['username']).$promise.then(             // o6te nqma username
+                userService.getUserFullData($routeParams['username']).$promise.then(
                     function (data) {
                         $scope.wallOwner = data;
                         if (accountService.getCurrentUser().userName !== $scope.wallOwner.username) {
@@ -89,14 +65,13 @@ app.controller('HomeController',
                             }
                         }
 
+                      //  if ($scope.wallOwner.isFriend && $location.path() === '/user/' + $routeParams['username'] + '/wall/') {
+                      //      $scope.getUserFriendsListPreview();
+                      //  }
 
-                        if ($scope.wallOwner.isFriend && $location.path() === '/user/' + $routeParams['username'] + '/wall/') {
-                            $scope.getUserFriendsListPreview();
-                        }
-
-                        if (!$scope.wallOwner.isFriend && $routeParams['username'] !== $scope.username && $location.path() === '/user/' + $routeParams['username'] + '/friends/') {
-                            $location.path('/');
-                        }
+                    //  if (!$scope.wallOwner.isFriend && $routeParams['username'] !== $scope.username && $location.path() === '/user/' + $routeParams['username'] + '/friends/') {
+                    //        $location.path('/');
+                   //     }
                     },
                     function (error) {
                         notification.showError("Unsuccessful user load!", error);
@@ -105,13 +80,48 @@ app.controller('HomeController',
             }
         }
 
-        function getFriendRequests(){
-                profileService.getPendingRequests().$promise.then(
-                    function(data){
-                        $scope.pendingRequests = data;
+        $scope.getOwnFiendsList = function(){
+                profileService.getFriendsList().$promise.then(
+                    function (data) {
+                        $scope.friendsList = data;
+                        notification.showInfo("friendsList successfully loaded");
+                    },
+                    function () {
+                        notification.showInfo(" loading friends...");
+                    }
+                );
+        };
+
+        $scope.getOwnFriendsListPreview = function() {
+                profileService.getFriendsListPreview().$promise.then(
+                    function (data) {
+                        data.userFriendsUrl = '#/user/' + $scope.username + '/friends/';
+                        $scope.myFriendsListPreview = data;
+                    },
+                    function (error) {
+                        notification.showError("Failed to load friends", error);
                     }
                 );
         }
+
+       $scope.getFriendRequests = function(){
+            profileService.getPendingRequests().$promise.then(
+                function(data){
+                    $scope.pendingRequests = data;
+                }
+            );
+        };
+
+        $scope.sendFriendRequest = function(username){
+            profileService.sendFriendRequest(username).$promise.then(
+                function(data){
+                    $scope.pendingRequests = data;
+                    notification.showInfo("Friend request successfully send.");
+                }, function(error){
+                    notification.showError("Unsuccessful request send!", error);
+                }
+            );
+        };
 
         $scope.acceptFriendRequest = function(request){
                 profileService.acceptRequest(request.id).$promise.then(
@@ -137,7 +147,26 @@ app.controller('HomeController',
                 );
         };
 
-        getFriendRequests();
+                userService.getUserFriendsPreview($routeParams['username']).$promise.then(
+                    function (data) {
+                        data.userFriendsUrl = '#/user/' + $routeParams['username'] + '/friends/';
+                        $scope.userFriendsListPreview = data;
+                        console.log(data);
+                    },
+                    function (error) {
+                        notification.showInfo("Loading user friends...", error);
+                    }
+                );
 
+        $scope.getUserFriends = function(){
+                userService.getUserFriends($routeParams['username']).$promise.then(
+                    function (data) {
+                        $scope.friendsList = data;
+                    },
+                    function (error) {
+                        notification.showError("Failed to load user friends!", error);
+                    }
+                );
+            }
     }
 );
