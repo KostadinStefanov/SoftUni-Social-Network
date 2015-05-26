@@ -1,7 +1,7 @@
 'use strict';
 
 app.controller('HomeController',
-    function HomeController($scope, $log, accountService, userService, notification, $routeParams, $timeout, profileService) {
+    function HomeController($scope, $log, accountService, userService, notification, $routeParams, $timeout, profileService , $location) {
         var feedStartPostId = 0,
         PAGE_SIZE =5;
 
@@ -9,8 +9,8 @@ app.controller('HomeController',
         $scope.posts = [];
 
         $scope.logout = function () {
-            accountService.logout();
             userService.logout();
+            accountService.logout()
         }
 
         $scope.isLogged = function(){
@@ -28,6 +28,7 @@ app.controller('HomeController',
 
         profileService.getNewsFeed(PAGE_SIZE, feedStartPostId).$promise.then(
             function (data) {
+                console.log(data);
                 $scope.posts = $scope.posts.concat(data);
                 if ($scope.posts.length > 0) {
                     feedStartPostId = $scope.posts[$scope.posts.length - 1].id;
@@ -118,6 +119,25 @@ app.controller('HomeController',
                         notification.showInfo("Friend request successfully rejected.");
                     }, function(error){
                         notification.showError("Unsuccessful request reject!", error);
+                    }
+                );
+        };
+
+        $scope.clearSearchResults = function(){
+            $timeout(function() {
+                $scope.searchResults = undefined;
+                $scope.searchTerm = "";
+            }, 300);
+        };
+
+        $scope.editPassword = function(){
+                profileService(authentication.getAccessToken()).update($scope.passwordUpdate, 'changepassword').$promise.then(
+                    function () {
+                        notification.showInfo('Password successfully changed.');
+                        $location.path('/');
+                    },
+                    function (error) {
+                        notification.showError('Failed to change password!', error);
                     }
                 );
         };

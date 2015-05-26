@@ -5,23 +5,24 @@
             <h1 class="center">Welcome to <strong>SoftUni Social Network</strong></h1>
         </div>
         <div class="row home-buttons-container col-md-12">
-                <div class="center col-lg-6">
-                    <a href="#/login">
-                        <button type="button" class="btn btn-lg btn-warning home-btn">Login</button>
-                    </a>
-                </div>
-                <div class="center col-lg-6">
-                    <a href="#/register">
-                        <button type="button" class="btn btn-lg btn-primary home-btn">Register</button>
-                    </a>
-                </div>
+            <div class="center col-lg-6">
+                <a href="#/login">
+                    <button type="button" class="btn btn-lg btn-warning home-btn">Login</button>
+                </a>
+            </div>
+            <div class="center col-lg-6">
+                <a href="#/register">
+                    <button type="button" class="btn btn-lg btn-primary home-btn">Register</button>
+                </a>
+            </div>
         </div>
     </div>
     <!-- end of guest home -->
-    <div ng-show="accountService.isLoggedIn()" >
+    <div ng-show="accountService.isLoggedIn()">
         <!-- user header -->
-        <header class="header" id="header"  ng-style="{'background-image':'url(' + (me.coverImageData ? me.coverImageData : 'imgs/cover.png') +')'}" >
-            <div class="image-container" >
+        <header class="header" id="header"
+                ng-style="{'background-image':'url(' + (me.coverImageData ? me.coverImageData : 'imgs/cover.png') +')'}">
+            <div class="image-container">
                 <img class="thumbnail" ng-src="{{me.profileImageData}}" alt="profile picture"/>
             </div>
             <div class="summary-container">
@@ -29,55 +30,88 @@
             </div>
         </header>
         <nav class="navbar navbar-default navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#/edit">Edit profile</a></li>
-                    <li><a href="#/invitations">Invitations</a></li>
-                </ul>
-                <ul class="nav navbar-nav pull-right">
-                    <li><a  href="#/friends" class="navbar-brand"><u>{{  me.name }}'s friends</u></a></li>
-                    <li>
-                        <input type="text" class="search-input" ng-model="searchTerm" ng-change="searchUser();" ng-blur="clearSearchResults()" class="form-control" placeholder="Search friends...">
-                        <div id="search-results" ng-if="searchResults" class="list-group">
-                            <div ng-repeat="user in searchResults | limitTo : 5" class="list-group-item">
-                                <a href="#/user/{{user.username }}/wall/">
-                                    <img ng-src="{{user.profileImageData}}"  alt="profile picture" style="width: 50px; height: 50px"/>
-                                    <span class="name">{{user.name}}</span>
-                                </a>
-                            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="#">Home</a></li>
+                <li><a href="#/edit">Edit profile</a></li>
+                <li><a href="#/invitations">Invitations</a></li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li><a href="#/friends" class="navbar-brand"><u>{{ me.name }}'s friends</u></a></li>
+                <li>
+                    <input type="text" class="search-input" ng-model="searchTerm" ng-change="searchUser();"
+                           ng-blur="clearSearchResults()" class="form-control" placeholder="Search friends...">
+
+                    <div id="search-results" ng-if="searchResults" class="list-group">
+                        <div ng-repeat="user in searchResults | limitTo : 5" class="list-group-item">
+                            <a href="#/user/{{user.username }}/wall/">
+                                <img ng-src="{{user.profileImageData}}" alt="profile picture"
+                                     style="width: 50px; height: 50px"/>
+                                <span class="name">{{user.name}}</span>
+                            </a>
                         </div>
-                    </li>
-                    <li><a ng-click="logout()">Logout</a></li>
-                </ul>
-        </nav><!-- end of user header -->
+                    </div>
+                </li>
+                <li><a ng-click="logout()">Logout</a></li>
+            </ul>
+        </nav>
+        <!-- end of user header -->
         <div class="col-md-8">
-            <div class="well">
-                <div ng-repeat="post in posts">
-                    <div class="well .alert-success col-xs-12 col-md-12">
-                        <div class="form-group col-xs-12 col-md-12">
-                            <img ng-src="{{post.author.profileImageData}}"  alt="profile picture" style="width: 50px; height: 50px"/>
-                <span>
-                    {{post.author.name}} ----> {{post.wallOwner.name}}
-                </span>
-                            <span>{{post.date | date : "dd MMM yyyy hh:mm:ss"}}</span>
+            <div ng-repeat="post in posts">
+                <div class="row">
+                    <div class="well col-md-12">
+                        <div class="form-group  col-md-12">
+                            <img ng-src="{{post.author.profileImageData}}" alt="profile picture"
+                                 style="width: 50px; height: 50px"/>
+                            <span>{{post.author.name}} ----> {{post.wallOwner.name | limitTo:10}} (on {{post.date | date : "dd MMM yyyy hh:mm:ss"}})</span>
                         </div>
                         <div class=" col-xs-12 col-md-12">
                             <span>{{post.postContent}}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col-md-2"><a class="btn" data-toggle="collapse"
+                                                      data-target="#viewdetails{{post.id}}">Write
+                                Comments &raquo;</a></span>
+                            <span class="glyphicon glyphicon-thumbs-up col-md-offset-9" title="likes"></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- write comments block-->
+                <div class="row collapse" id="viewdetails{{post.id}}">
+                    <div class="col-md-offset-1 col-md-11">
+                        <textarea ng-model="postData.commentContent" class="well col-md-10"
+                                  placeholder="comment content" rows="3" required></textarea>
+                        <input type="submit" ng-click="addPost()" class=" btn btn-primary" value="Post">
+                    </div>
+                </div>
+                <!-- view all comments block-->
+                <div class="row">
+                    <div class="well col-md-offset-1 col-md-11  " ng-repeat="comment in post.comments">
+                        <div class="col-md-12 ">
+                            <img ng-src="{{comment.author.profileImageData}}" alt="profile picture"
+                                 style="width: 50px; height: 50px"/>
+                            <span>{{comment.author.name}} ----> {{comment.wallOwner.name | limitTo:10}} (on {{comment.date | date : "dd MMM yyyy hh:mm:ss"}})</span>
+                        </div>
+                        <div class="col-md-12">
+                            <span>{{comment.commentContent}}</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4" ng-init="getOwnFriendsListPreview()">
-                <div class="well friends" ng-if="myFriendsListPreview">
-                    <div class="">Friends - <a href="{{myFriendsListPreview.userFriendsUrl}}">{{myFriendsListPreview.totalCount}} total</a></div>
-                    <div class="friends-preview" ng-repeat="friend in myFriendsListPreview.friends | limitTo:6">
-                        <a class="thumbnail" href="#/user/{{friend.username}}/wall/">
-                            <img ng-src="{{friend.profileImageData}}"  alt="profile picture" title="{{friend.name}}" style="width: 100px; height: 100px"/>
-                            <p>{{friend.name | limitTo:10}}</p>
-                        </a>
-                    </div>
+
+        <div ng-show="accountService.isLoggedIn()" class="col-md-4" ng-init="getOwnFriendsListPreview()">
+            <div class="well friends" ng-if="myFriendsListPreview">
+                <div>Friends - <a href="{{myFriendsListPreview.userFriendsUrl}}"/>{{myFriendsListPreview.totalCount}}total</a>
                 </div>
+                <div class="friends-preview" ng-repeat="friend in myFriendsListPreview.friends | limitTo:6">
+                    <a class="thumbnail" href="#/user/{{friend.username}}/wall/">
+                        <img ng-src="{{friend.profileImageData}}" alt="profile picture" title="{{friend.name}}"
+                             style="width: 100px; height: 100px"/>
+
+                        <p>{{friend.name | limitTo:10}}</p>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
