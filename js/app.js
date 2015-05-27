@@ -36,6 +36,13 @@ app
                 pageTitle: "Invitations"
             })
 
+            .when("/changePassword", {
+                templateUrl: "templates/changePassword.html",
+                controller: "HomeController",
+                pageName: "changePassword",
+                pageTitle: "Change Password"
+            })
+
             .when('/user/:username/wall/', {
                 templateUrl: 'templates/userWall.html',
                 controller: 'userWallController',

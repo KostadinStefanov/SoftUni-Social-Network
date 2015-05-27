@@ -26,6 +26,12 @@ app.factory('profileService', ["$http", "$q", "$resource", "baseUrl", "accountSe
             return resource.edit({option1: option1}, data);
         },
 
+        changePassword :function(data){
+        return resource.edit({option1: 'changepassword'}, data);
+        },
+
+
+
         getFriendsList : function(){
             return resource.query({ option1: 'friends'});
         },

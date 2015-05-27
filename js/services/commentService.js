@@ -2,7 +2,7 @@ app.factory('commentService', ["$http", "$q", "$resource", "baseUrl", "accountSe
     function($http, $q, $resource, baseUrl, accountService){
         $http.defaults.headers.common['Authorization'] =  accountService.getAuthHeaders();
             var resource = $resource(
-                baseUrl + 'posts/:option1/comments/:option2/:option3',
+                baseUrl + '/posts/:option1/comments/:option2/:option3',
                 {
                     option1: '@option1',
                     option2: '@option2',

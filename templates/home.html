@@ -33,6 +33,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="#">Home</a></li>
                 <li><a href="#/edit">Edit profile</a></li>
+                <li><a href="#/changePassword">Change Password</a></li>
                 <li><a href="#/invitations">Invitations</a></li>
             </ul>
             <ul class="nav navbar-nav pull-right">
@@ -62,7 +63,7 @@
                         <div class="form-group  col-md-12">
                             <img ng-src="{{post.author.profileImageData}}" alt="profile picture"
                                  style="width: 50px; height: 50px"/>
-                            <span>{{post.author.name}} ----> {{post.wallOwner.name | limitTo:10}} (on {{post.date | date : "dd MMM yyyy hh:mm:ss"}})</span>
+                            <span>{{post.author.name}} ----> {{post.wallOwner.name | limitTo:12}} (on {{post.date | date : "dd MMM yyyy hh:mm:ss"}})</span>
                         </div>
                         <div class=" col-xs-12 col-md-12">
                             <span>{{post.postContent}}</span>
@@ -78,9 +79,9 @@
                 <!-- write comments block-->
                 <div class="row collapse" id="viewdetails{{post.id}}">
                     <div class="col-md-offset-1 col-md-11">
-                        <textarea ng-model="postData.commentContent" class="well col-md-10"
+                        <textarea ng-model="commentData.commentContent" class="well col-md-10"
                                   placeholder="comment content" rows="3" required></textarea>
-                        <input type="submit" ng-click="addPost()" class=" btn btn-primary" value="Post">
+                        <input type="submit" ng-click="addComment(post)" class=" btn btn-primary" value="Post">
                     </div>
                 </div>
                 <!-- view all comments block-->
@@ -89,7 +90,7 @@
                         <div class="col-md-12 ">
                             <img ng-src="{{comment.author.profileImageData}}" alt="profile picture"
                                  style="width: 50px; height: 50px"/>
-                            <span>{{comment.author.name}} ----> {{comment.wallOwner.name | limitTo:10}} (on {{comment.date | date : "dd MMM yyyy hh:mm:ss"}})</span>
+                            <span>{{comment.author.name}} -reply- (on {{comment.date | date : "dd MMM yyyy hh:mm:ss"}})</span>
                         </div>
                         <div class="col-md-12">
                             <span>{{comment.commentContent}}</span>
