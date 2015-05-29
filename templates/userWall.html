@@ -15,24 +15,8 @@
     </div>
 </header>
 <main ng-if="wallOwner.isFriend">
-    <div class="col-md-8">
-        <div class="well">
-            <div ng-repeat="post in posts">
-                <div class="well .alert-success col-xs-12 col-md-12">
-                    <div class="form-group col-xs-12 col-md-12">
-                        <img ng-src="{{post.author.profileImageData}}" alt="profile picture"
-                             style="width: 50px; height: 50px"/>
-                <span>
-                    {{post.author.name}} ----> {{post.wallOwner.name}}
-                </span>
-                        <span>{{post.date | date : "dd MMM yyyy hh:mm:ss"}}</span>
-                    </div>
-                    <div class=" col-xs-12 col-md-12">
-                        <span>{{post.postContent}}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="col-md-8" ng-include="'templates/posts-comments-likes.html'" ng-controller="PostController">
+
     </div>
     <div class="col-md-4" ng-init="getUserFriendsPreview()">
         <div class=" well input-group">

@@ -1,5 +1,5 @@
 <div ng-controller="HomeController">
-    <div ng-hide="accountService.isLoggedIn()">
+    <div ng-hide="isLogged()">
         <!-- guest home -->
         <div>
             <h1 class="center">Welcome to <strong>SoftUni Social Network</strong></h1>
@@ -18,7 +18,7 @@
         </div>
     </div>
     <!-- end of guest home -->
-    <div ng-show="accountService.isLoggedIn()">
+    <div ng-show="isLogged()">
         <!-- user header -->
         <header class="header" id="header"
                 ng-style="{'background-image':'url(' + (me.coverImageData ? me.coverImageData : 'imgs/cover.png') +')'}">
@@ -56,48 +56,8 @@
             </ul>
         </nav>
         <!-- end of user header -->
-        <div class="col-md-8">
-            <div ng-repeat="post in posts">
-                <div class="row">
-                    <div class="well col-md-12">
-                        <div class="form-group  col-md-12">
-                            <img ng-src="{{post.author.profileImageData}}" alt="profile picture"
-                                 style="width: 50px; height: 50px"/>
-                            <span>{{post.author.name}} ----> {{post.wallOwner.name | limitTo:12}} (on {{post.date | date : "dd MMM yyyy hh:mm:ss"}})</span>
-                        </div>
-                        <div class=" col-xs-12 col-md-12">
-                            <span>{{post.postContent}}</span>
-                        </div>
-                        <div class="row">
-                            <span class="col-md-2"><a class="btn" data-toggle="collapse"
-                                                      data-target="#viewdetails{{post.id}}">Write
-                                Comments &raquo;</a></span>
-                            <span class="glyphicon glyphicon-thumbs-up col-md-offset-9" title="likes"></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- write comments block-->
-                <div class="row collapse" id="viewdetails{{post.id}}">
-                    <div class="col-md-offset-1 col-md-11">
-                        <textarea ng-model="commentData.commentContent" class="well col-md-10"
-                                  placeholder="comment content" rows="3" required></textarea>
-                        <input type="submit" ng-click="addComment(post)" class=" btn btn-primary" value="Post">
-                    </div>
-                </div>
-                <!-- view all comments block-->
-                <div class="row">
-                    <div class="well col-md-offset-1 col-md-11  " ng-repeat="comment in post.comments">
-                        <div class="col-md-12 ">
-                            <img ng-src="{{comment.author.profileImageData}}" alt="profile picture"
-                                 style="width: 50px; height: 50px"/>
-                            <span>{{comment.author.name}} -reply- (on {{comment.date | date : "dd MMM yyyy hh:mm:ss"}})</span>
-                        </div>
-                        <div class="col-md-12">
-                            <span>{{comment.commentContent}}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-8" ng-include="'templates/posts-comments-likes.html'"  ng-controller="PostController">
+
         </div>
 
         <div ng-show="accountService.isLoggedIn()" class="col-md-4" ng-init="getOwnFriendsListPreview()">
