@@ -23,11 +23,11 @@ app.factory('commentService', ["$http", "$q", "$resource", "baseUrl", "accountSe
                 return resource.query({option1: postId});
             },
 
-            like: function (postId, commentId) {
+            likeComment: function (postId, commentId) {
                 return resource.save({option1: postId, option2: commentId, option3: "likes"})
             },
 
-            unlike: function (postId, commentId) {
+            unlikeComment: function (postId, commentId) {
                 return resource.remove({option1: postId, option2: commentId, option3: "likes"})
             },
 

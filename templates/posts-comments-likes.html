@@ -39,6 +39,13 @@
             </div>
             <div class="col-md-12">
                 <span>{{comment.commentContent}}</span>
+                <div class="row">
+                 <span ng-if="isOwnWall || isOwnFeed || post.author.isFriend || post.wallOwner.isFriend" class="col-md-offset-8">
+                                <a class="btn-default" ng-if="!comment.liked" ng-click="likeComment(post, comment);">Like</a>
+                                 <a class="btn-default" ng-if="comment.liked" ng-click="unlikeComment(post, comment);">Unlike</a>
+                                <span class="glyphicon glyphicon-thumbs-up" title="likes"></span> <span class="views post-details" title="likes">{{comment.likesCount}}</span>
+                 </span>
+                </div>
             </div>
         </div>
     </div>

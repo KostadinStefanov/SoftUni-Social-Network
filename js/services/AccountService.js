@@ -30,7 +30,7 @@ app.factory("accountService", ["$http", "baseUrl", function ($http, baseUrl) {
         },
 
         logout: function () {
-            localStorage.removeItem(KEY_USER_DATA);
+            localStorage.clear();
         },
 
         getCurrentUser: function () {

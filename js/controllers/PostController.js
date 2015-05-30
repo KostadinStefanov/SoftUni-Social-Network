@@ -69,6 +69,33 @@ app.controller('PostController',
                     }
                 );
             };
+
+            $scope.likeComment= function(post, comment){
+                    commentService.likeComment(post.id, comment.id).$promise.then(
+                        function(){
+                            comment.liked = true;
+                            comment.likesCount++;
+                        },
+                        function(error){
+                            notification.showError("Failed to like comment!", error);
+                        }
+                    );
+            };
+
+            $scope.unlikeComment = function(post, comment){
+                    commentService.unlikeComment(post.id, comment.id).$promise.then(
+                        function(){
+                            notification.showInfo("Comment successfully unliked.");
+                            comment.liked = false;
+                            comment.likesCount--;
+                        },
+                        function(error){
+                            notification.showError("Failed to unlike comment!", error);
+                        }
+                    );
+            };
+
+
         }
 // Post and comment functionality
 
