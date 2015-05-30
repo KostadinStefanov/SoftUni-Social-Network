@@ -1,7 +1,15 @@
 <main ng-init="getOwnFiendsList()">
     <legend><h2>Friends ({{friendsList.length}} total)</h2></legend>
         <div class="row" >
-            <div class="col-md-2 " ng-repeat="friend in friendsList">
+
+            <div class="form-group col-sm-11">
+                <label for="input1" class="col-sm-2 control-label">Search by name</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="input1" placeholder="friend name" ng-model="filterFriends.name">
+                </div>
+            </div>
+
+            <div class="col-md-2 " ng-repeat="friend in friendsList | filter: filterFriends">
                 <div class="thumbnail">
                     <img ng-src="{{friend.profileImageData}}" alt="profile picture" style="width: 100px; height: 100px"/>
                         <h3 id="thumbnail-label">
