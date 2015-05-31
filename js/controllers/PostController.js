@@ -60,7 +60,8 @@ app.controller('PostController',
                 commentService.addComment(post.id, $scope.commentData).$promise.then(
                     function (data) {
                         $scope.commentData.commentContent = "";
-                        post.comments.unshift(data);
+                        console.log(data)
+                        post.comments.push(data);
                         post.totalCommentsCount++;
                         notification.showInfo("Comment successfully added.");
                     },

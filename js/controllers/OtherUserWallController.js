@@ -92,6 +92,5 @@ app.controller('userWallController',
             );
         };
 
-
     }
 );

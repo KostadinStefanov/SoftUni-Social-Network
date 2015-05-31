@@ -11,11 +11,12 @@
             </div>
             <div class="row">
                 <span class="col-md-2"><a class="btn" data-toggle="collapse" data-target="#viewdetails{{post.id}}">WriteComments &raquo;</a></span>
-                            <span ng-if="isOwnWall || isOwnFeed || post.author.isFriend || post.wallOwner.isFriend" class="col-md-offset-8">
+                            <span ng-if="post.author.isFriend || post.wallOwner.isFriend" class="col-md-offset-7">
                                 <a class="btn-default" ng-if="!post.liked" ng-click="likePost(post);">Like</a>
                                  <a class="btn-default" ng-if="post.liked" ng-click="unlikePost(post);">Unlike</a>
                                 <span class="glyphicon glyphicon-thumbs-up" title="likes"></span> <span class="views post-details" title="likes">{{post.likesCount}}</span>
                                 <span class="glyphicon glyphicon-log-in" title="comments"></span> <span class="comments-count post-details" title="comments">{{post.totalCommentsCount}}</span>
+                                <span ng-if="post.author.isFriend || post.author.username ===  accountService.getCurrentUser().userName"><a class="btn-default"  ng-click="deletePost(post, comment)">delete</a><span class="glyphicon glyphicon-remove"></span></span>
                             </span>
             </div>
         </div>
@@ -40,11 +41,14 @@
             <div class="col-md-12">
                 <span>{{comment.commentContent}}</span>
                 <div class="row">
-                 <span ng-if="isOwnWall || isOwnFeed || post.author.isFriend || post.wallOwner.isFriend" class="col-md-offset-8">
+                 <span ng-if="post.author.isFriend || post.wallOwner.isFriend" class="col-md-offset-8">
                                 <a class="btn-default" ng-if="!comment.liked" ng-click="likeComment(post, comment);">Like</a>
                                  <a class="btn-default" ng-if="comment.liked" ng-click="unlikeComment(post, comment);">Unlike</a>
                                 <span class="glyphicon glyphicon-thumbs-up" title="likes"></span> <span class="views post-details" title="likes">{{comment.likesCount}}</span>
-                                <span ng-if="comment.author.username ===  accountService.getCurrentUser().userName"><a  ng-click="deleteComment(post, comment)" class="col-md-offset-2">delete</a></span>
+                                <span  ng-if=" post.author.username ===  accountService.getCurrentUser().userName || comment.author.username ===  accountService.getCurrentUser().userName">
+                                    <a ng-click="deleteComment(post, comment)" class="  btn-default">delete</a>
+                                    <span class="glyphicon glyphicon-remove"> </span>
+                                </span>
                  </span>
                 </div>
             </div>
