@@ -95,6 +95,32 @@ app.controller('PostController',
                     );
             };
 
+            $scope.editComment = function(post, comment){
+                    commentService.editComment(post.id, comment.id, comment.newCommentContent).$promise.then(
+                        function(){
+                            notification.showInfo("Comment successfully edited.");
+                            comment.commentContent = comment.newCommentContent;
+                        },
+                        function(error){
+                            notification.showError("Failed to edit comment!", error);
+                        }
+                    );
+            };
+
+            $scope.deleteComment = function(post, comment){
+                    commentService.removeComment(post.id, comment.id).$promise.then(
+                        function(){
+                            var index =  post.comments.indexOf(comment);
+                            post.comments.splice(index, 1);
+                            post.totalCommentsCount--;
+                            notification.showInfo("Comment successfully deleted.");
+                        },
+                        function(error){
+                            notification.showError("Failed to delete comment!", error);
+                        }
+                    );
+            };
+
 
         }
 // Post and comment functionality

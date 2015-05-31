@@ -31,7 +31,6 @@ app.factory('profileService', ["$http", "$q", "$resource", "baseUrl", "accountSe
         },
 
 
-
         getFriendsList : function(){
             return resource.query({ option1: 'friends'});
         },

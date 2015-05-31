@@ -30,6 +30,10 @@ app.factory('userService', ["$http","$q", "$resource", "baseUrl", "accountServic
             return resource.query({ option1: username, option2: option2});
         },
 
+        //getUserPreviewData : function(username){
+        //    return resource.get({ option1: username, option2: 'preview' });
+        //},
+
 
         getUserFriendsPreview : function(username){
             return resource.get({ option1: username, option2: 'friends', option3: 'preview' });

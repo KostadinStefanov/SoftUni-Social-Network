@@ -4,7 +4,7 @@
             <div class="form-group  col-md-12">
                 <img ng-src="{{post.author.profileImageData}}" alt="profile picture"
                      style="width: 50px; height: 50px"/>
-                <span>{{post.author.name}} ----> {{post.wallOwner.name | limitTo:12}} (on {{post.date | date : "dd MMM yyyy hh:mm:ss"}})</span>
+                <span><span>{{post.author.name}}</span> ----> {{post.wallOwner.name | limitTo:12}} (on {{post.date | date : "dd MMM yyyy hh:mm:ss"}})</span>
             </div>
             <div class=" col-xs-12 col-md-12">
                 <span>{{post.postContent}}</span>
@@ -44,6 +44,7 @@
                                 <a class="btn-default" ng-if="!comment.liked" ng-click="likeComment(post, comment);">Like</a>
                                  <a class="btn-default" ng-if="comment.liked" ng-click="unlikeComment(post, comment);">Unlike</a>
                                 <span class="glyphicon glyphicon-thumbs-up" title="likes"></span> <span class="views post-details" title="likes">{{comment.likesCount}}</span>
+                                <span ng-if="comment.author.username ===  accountService.getCurrentUser().userName"><a  ng-click="deleteComment(post, comment)" class="col-md-offset-2">delete</a></span>
                  </span>
                 </div>
             </div>

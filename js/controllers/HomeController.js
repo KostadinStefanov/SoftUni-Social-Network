@@ -15,6 +15,7 @@ app.controller('HomeController',
         $scope.posts = [];
         $scope.commentData = {};
         $scope.passwordUpdate = {};
+        $scope.previewData = {};
 
         $scope.logout = function () {
             userService.logout();
@@ -53,7 +54,6 @@ app.controller('HomeController',
                 }
             );
 
-
             profileService.getFriendsListPreview().$promise.then(
                 function (data) {
                     data.userFriendsUrl = '#/user/' + $scope.username + '/friends/';
@@ -64,7 +64,6 @@ app.controller('HomeController',
                 }
             );
         }
-
 
         $scope.searchUser = function () {
             if (accountService.isLoggedIn() && $scope.searchTerm.trim() !== "") {
@@ -79,10 +78,8 @@ app.controller('HomeController',
             } else {
                 $scope.searchResults = undefined;
             }
+
         };
-
-
-
 
         $scope.getFriendRequests = function () {
             profileService.getPendingRequests().$promise.then(
